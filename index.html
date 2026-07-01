@@ -695,6 +695,47 @@ tabA.bindEvents();
 tabS.bindEvents();
 
 /* ══════════════════════════════════════
+   AUTO-LOAD: busca os CSVs do repositório
+══════════════════════════════════════ */
+function showLoading(tab, msg) {
+  const cols = tab.schema==='analistas' ? 8 : 6;
+  tab.id('tbody').innerHTML = `<tr class="loading-row"><td colspan="${cols}">${msg}</td></tr>`;
+}
+
+async function autoLoad() {
+  // Detecta a base URL do repositório (funciona local e no GitHub Pages)
+  const base = location.href.replace(/\/[^/]*$/, '');
+
+  // Carrega analistas
+  try {
+    showLoading(tabA, 'Carregando dados...');
+    const res = await fetch(`${base}/analistas.csv`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const rows = parseCSVAnalistas(text);
+    if (rows.length) tabA.loadData(rows);
+    else showLoading(tabA, 'Arquivo analistas.csv vazio ou com formato inesperado.');
+  } catch(e) {
+    showLoading(tabA, 'Não foi possível carregar analistas.csv. Verifique se o arquivo está no repositório.');
+  }
+
+  // Carrega supervisores
+  try {
+    showLoading(tabS, 'Carregando dados...');
+    const res = await fetch(`${base}/supervisores.csv`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const rows = parseCSVSupervisores(text);
+    if (rows.length) tabS.loadData(rows);
+    else showLoading(tabS, 'Arquivo supervisores.csv vazio ou com formato inesperado.');
+  } catch(e) {
+    showLoading(tabS, 'Não foi possível carregar supervisores.csv. Verifique se o arquivo está no repositório.');
+  }
+}
+
+autoLoad();
+
+/* ══════════════════════════════════════
    NAVEGAÇÃO ENTRE ABAS
 ══════════════════════════════════════ */
 document.querySelectorAll('.tab-btn').forEach(btn => {
