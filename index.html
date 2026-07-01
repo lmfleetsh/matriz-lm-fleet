@@ -264,7 +264,7 @@
         <input type="file" id="s-csv-input" accept=".csv" style="display:none">
       </div>
       <div class="upload-info">
-        Colunas: Nome, Email, Regional, Sub Regional, Hub name, Cargo, Escala, Dias de escala, Jornada de Trabalho, Supervisor (ou Coordenador).
+        Colunas esperadas: Nome, Email, Hub name, Sort Code, Regional, Sub Regional.
         <span class="warn">⚠ Não incluir colunas sensíveis.</span>
       </div>
       <button class="upload-close" onclick="document.getElementById('s-upload-panel').classList.remove('open')">✕</button>
@@ -279,7 +279,7 @@
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num" id="s-stat-total">—</div>
-        <div class="hero-stat-lbl">Total de colaboradores</div>
+        <div class="hero-stat-lbl">Total de supervisores</div>
       </div>
     </div>
   </div>
@@ -298,31 +298,26 @@
         <div class="filter-group"><div class="filter-label">Regional</div><select class="filter-select" id="s-f-regional"><option value="">Todas</option></select></div>
         <div class="filter-group"><div class="filter-label">Sub Regional</div><select class="filter-select" id="s-f-subregional" disabled><option value="">Todas</option></select></div>
         <div class="filter-group"><div class="filter-label">Hub</div><select class="filter-select" id="s-f-hub" disabled><option value="">Todos</option></select></div>
-        <div class="filter-group"><div class="filter-label">Cargo</div><select class="filter-select" id="s-f-cargo"><option value="">Todos</option></select></div>
-        <div class="filter-group"><div class="filter-label">Escala</div><select class="filter-select" id="s-f-escala"><option value="">Todas</option></select></div>
-        <div class="filter-group"><div class="filter-label">Coordenador</div><select class="filter-select" id="s-f-supervisor"><option value="">Todos</option></select></div>
         <div class="filter-divider"></div>
         <button class="btn-clear" id="s-btn-clear">Limpar filtros</button>
       </div>
     </div>
 
-    <div class="section-label">Colaboradores</div>
+    <div class="section-label">Supervisores</div>
     <div class="table-card">
       <div class="table-toolbar">
-        <div class="result-count">Exibindo <strong id="s-result-showing">—</strong> de <strong id="s-result-total">—</strong> colaboradores</div>
+        <div class="result-count">Exibindo <strong id="s-result-showing">—</strong> de <strong id="s-result-total">—</strong> supervisores</div>
         <div class="result-badge"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg><span id="s-badge-count">—</span> resultados</div>
       </div>
       <div style="overflow-x:auto;">
         <table>
           <thead><tr>
-            <th class="sortable" style="width:17%" data-tab="supervisores" data-col="nome">Nome <span class="sort-icon">↕</span></th>
-            <th style="width:20%">E-mail</th>
-            <th class="sortable" style="width:16%" data-tab="supervisores" data-col="hub">Hub <span class="sort-icon">↕</span></th>
-            <th style="width:10%">Cargo</th>
-            <th style="width:7%">Escala</th>
-            <th style="width:13%">Dias de escala</th>
-            <th style="width:10%">Jornada</th>
-            <th class="sortable" style="width:13%" data-tab="supervisores" data-col="supervisor">Coordenador <span class="sort-icon">↕</span></th>
+            <th class="sortable" style="width:20%" data-tab="supervisores" data-col="nome">Nome <span class="sort-icon">↕</span></th>
+            <th style="width:22%">E-mail</th>
+            <th class="sortable" style="width:28%" data-tab="supervisores" data-col="hub">Hub <span class="sort-icon">↕</span></th>
+            <th style="width:10%">Sort Code</th>
+            <th class="sortable" style="width:10%" data-tab="supervisores" data-col="regional">Regional <span class="sort-icon">↕</span></th>
+            <th class="sortable" style="width:10%" data-tab="supervisores" data-col="subregional">Sub Regional <span class="sort-icon">↕</span></th>
           </tr></thead>
           <tbody id="s-tbody"></tbody>
         </table>
@@ -360,20 +355,35 @@ const ADMIN_PASSWORD = 'lmfleet2025';
 const PAGE_SIZE = 50;
 
 /* ══════════════════════════════════════
-   CSV PARSER (compartilhado)
+   CSV PARSER BASE
 ══════════════════════════════════════ */
-function parseCSV(text) {
+function splitCSVLine(line, delim) {
+  const cells=[]; let cur='', inQ=false;
+  for (const ch of line+delim) {
+    if (ch==='"') { inQ=!inQ; }
+    else if (ch===delim && !inQ) { cells.push(cur.trim()); cur=''; }
+    else cur+=ch;
+  }
+  return cells;
+}
+
+function makeColFinder(raw) {
+  const norm = s => s.toLowerCase().trim();
+  return (variants) => {
+    for (const v of variants) { const i=raw.findIndex(h=>norm(h)===norm(v)); if(i>=0) return i; }
+    for (const v of variants) { const i=raw.findIndex(h=>norm(h).includes(norm(v))); if(i>=0) return i; }
+    return -1;
+  };
+}
+
+/* Parser para aba Analistas */
+function parseCSVAnalistas(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length < 2) return [];
   const delim = lines[0].includes(';') ? ';' : ',';
-  const raw = lines[0].split(delim).map(h => h.trim().replace(/^"|"$/g,''));
-  const norm = s => s.toLowerCase().trim();
-  const col = (variants) => {
-    for (const v of variants) { const i = raw.findIndex(h => norm(h) === norm(v)); if (i>=0) return i; }
-    for (const v of variants) { const i = raw.findIndex(h => norm(h).includes(norm(v))); if (i>=0) return i; }
-    return -1;
-  };
-  const iSup     = col(['nome do supervisor','supervisor','coordenador','nome do coordenador']);
+  const raw = lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,''));
+  const col = makeColFinder(raw);
+  const iSup     = col(['nome do supervisor','supervisor']);
   const iNome    = col(['nome']);
   const iEmail   = col(['email','e-mail']);
   const iRegion  = col(['regional']);
@@ -384,21 +394,40 @@ function parseCSV(text) {
   const iEscala  = col(['escala']);
   const iDias    = col(['dias de escala','dias']);
   const iJornada = col(['jornada de trabalho','jornada']);
-  const rows = [];
+  const rows=[];
   for (let i=1; i<lines.length; i++) {
     if (!lines[i].trim()) continue;
-    const cells=[]; let cur='', inQ=false;
-    for (const ch of lines[i]+delim) {
-      if (ch==='"') { inQ=!inQ; }
-      else if (ch===delim && !inQ) { cells.push(cur.trim()); cur=''; }
-      else cur+=ch;
-    }
+    const cells = splitCSVLine(lines[i], delim);
     const g = idx => (idx>=0 && cells[idx]!==undefined) ? cells[idx].replace(/^"|"$/g,'').trim() : '';
     rows.push({ nome:g(iNome), email:g(iEmail), regional:g(iRegion), subregional:g(iSubReg),
       hub:g(iHub), hubcode:g(iHubCode), cargo:g(iCargo), escala:g(iEscala),
       dias:g(iDias), jornada:g(iJornada), supervisor:g(iSup) });
   }
-  return rows.filter(r => r.nome);
+  return rows.filter(r=>r.nome);
+}
+
+/* Parser para aba Supervisores: Nome, Email, Hub name, Sort Code, Regional, Sub Regional */
+function parseCSVSupervisores(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+  const delim = lines[0].includes(';') ? ';' : ',';
+  const raw = lines[0].split(delim).map(h=>h.trim().replace(/^"|"$/g,''));
+  const col = makeColFinder(raw);
+  const iNome     = col(['nome']);
+  const iEmail    = col(['email','e-mail']);
+  const iHub      = col(['hub name','hub nome','hub']);
+  const iSortCode = col(['sort code','sortcode','hub code','hub cod']);
+  const iRegion   = col(['regional']);
+  const iSubReg   = col(['sub regional','subregional']);
+  const rows=[];
+  for (let i=1; i<lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const cells = splitCSVLine(lines[i], delim);
+    const g = idx => (idx>=0 && cells[idx]!==undefined) ? cells[idx].replace(/^"|"$/g,'').trim() : '';
+    rows.push({ nome:g(iNome), email:g(iEmail), hub:g(iHub),
+      sortcode:g(iSortCode), regional:g(iRegion), subregional:g(iSubReg) });
+  }
+  return rows.filter(r=>r.nome);
 }
 
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -418,8 +447,9 @@ function badgeEscala(escala) {
    CLASSE Tab — estado independente por aba
 ══════════════════════════════════════ */
 class Tab {
-  constructor(prefix) {
-    this.p = prefix; // 'a' ou 's'
+  constructor(prefix, schema) {
+    this.p = prefix;   // 'a' ou 's'
+    this.schema = schema; // 'analistas' ou 'supervisores'
     this.allData = [];
     this.filtered = [];
     this.currentPage = 1;
@@ -446,9 +476,12 @@ class Tab {
     const afterSub = subregional ? afterReg.filter(r=>r.subregional===subregional) : afterReg;
     this.repopulate('f-hub', this.uniqueFrom(afterSub,'hub'), 'Todos', this.fval('hub'));
     this.id('f-hub').disabled = !(regional||subregional);
-    this.repopulate('f-cargo',      this.uniqueFrom(this.allData,'cargo'),      'Todos', this.fval('cargo'));
-    this.repopulate('f-escala',     this.uniqueFrom(this.allData,'escala'),     'Todas', this.fval('escala'));
-    this.repopulate('f-supervisor', this.uniqueFrom(this.allData,'supervisor'), 'Todos', this.fval('supervisor'));
+    // Apenas analistas têm cargo/escala/supervisor
+    if (this.schema === 'analistas') {
+      this.repopulate('f-cargo',      this.uniqueFrom(this.allData,'cargo'),      'Todos', this.fval('cargo'));
+      this.repopulate('f-escala',     this.uniqueFrom(this.allData,'escala'),     'Todas', this.fval('escala'));
+      this.repopulate('f-supervisor', this.uniqueFrom(this.allData,'supervisor'), 'Todos', this.fval('supervisor'));
+    }
   }
 
   repopulate(fid, values, emptyLabel, keepVal) {
@@ -468,8 +501,10 @@ class Tab {
     const f = {
       search: this.id('f-search').value.toLowerCase().trim(),
       regional: this.fval('regional'), subregional: this.fval('subregional'),
-      hub: this.fval('hub'), cargo: this.fval('cargo'),
-      escala: this.fval('escala'), supervisor: this.fval('supervisor'),
+      hub: this.fval('hub'),
+      ...(this.schema==='analistas' ? {
+        cargo: this.fval('cargo'), escala: this.fval('escala'), supervisor: this.fval('supervisor'),
+      } : {}),
     };
     this.filtered = this.allData.filter(r => {
       if (f.search && !r.nome.toLowerCase().includes(f.search) && !r.email.toLowerCase().includes(f.search)) return false;
@@ -493,8 +528,10 @@ class Tab {
 
   clearFilters() {
     this.id('f-search').value = '';
-    ['f-regional','f-subregional','f-hub','f-cargo','f-escala','f-supervisor']
-      .forEach(fid => { this.id(fid).value=''; });
+    const fields = this.schema==='analistas'
+      ? ['f-regional','f-subregional','f-hub','f-cargo','f-escala','f-supervisor']
+      : ['f-regional','f-subregional','f-hub'];
+    fields.forEach(fid => { this.id(fid).value=''; });
     this.sortCol=''; this.sortDir='asc';
     document.querySelectorAll(`th[data-tab="${this.p==='a'?'analistas':'supervisores'}"]`).forEach(th => {
       th.classList.remove('sort-asc','sort-desc');
@@ -518,13 +555,14 @@ class Tab {
 
     const tbody = this.id('tbody');
     if (total===0) {
-      tbody.innerHTML=`<tr><td colspan="8"><div class="empty-state">
+      const cols = this.schema==='analistas' ? 8 : 6;
+      tbody.innerHTML=`<tr><td colspan="${cols}"><div class="empty-state">
         <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
         <p>Nenhum resultado encontrado para os filtros aplicados.</p>
       </div></td></tr>`;
       this.renderPagination(0,1); return;
     }
-    tbody.innerHTML = page.map(r=>`<tr>
+    tbody.innerHTML = page.map(r => this.schema === 'analistas' ? `<tr>
       <td class="td-name">${esc(r.nome)}</td>
       <td class="td-email"><a href="mailto:${esc(r.email)}" style="color:inherit;text-decoration:none;">${esc(r.email)}</a></td>
       <td title="${esc(r.hub)}">${esc(r.hub)}</td>
@@ -533,6 +571,13 @@ class Tab {
       <td>${esc(r.dias)}</td>
       <td>${esc(r.jornada)}</td>
       <td>${esc(r.supervisor)}</td>
+    </tr>` : `<tr>
+      <td class="td-name">${esc(r.nome)}</td>
+      <td class="td-email"><a href="mailto:${esc(r.email)}" style="color:inherit;text-decoration:none;">${esc(r.email)}</a></td>
+      <td title="${esc(r.hub)}">${esc(r.hub)}</td>
+      <td style="font-size:12px;color:var(--muted);font-family:monospace">${esc(r.sortcode)}</td>
+      <td>${esc(r.regional)}</td>
+      <td>${esc(r.subregional)}</td>
     </tr>`).join('');
     this.renderPagination(total, totalPages);
   }
@@ -570,7 +615,8 @@ class Tab {
 
   /* ── Init empty state ── */
   initEmpty() {
-    this.id('tbody').innerHTML=`<tr class="loading-row"><td colspan="8">Nenhum dado carregado. Acesse a área administrativa e faça o upload do CSV.</td></tr>`;
+    const cols = this.schema==='analistas' ? 8 : 6;
+    this.id('tbody').innerHTML=`<tr class="loading-row"><td colspan="${cols}">Nenhum dado carregado. Acesse a área administrativa e faça o upload do CSV.</td></tr>`;
     this.id('result-showing').textContent='0';
     this.id('result-total').textContent='0';
     this.id('badge-count').textContent='0';
@@ -585,8 +631,14 @@ class Tab {
     this.id('f-search').addEventListener('input', ()=>{ clearTimeout(timer); timer=setTimeout(()=>this.applyFilters(),220); });
     this.id('f-regional').addEventListener('change',()=>{ this.id('f-subregional').value=''; this.id('f-hub').value=''; this.buildCascade(); this.applyFilters(); });
     this.id('f-subregional').addEventListener('change',()=>{ this.id('f-hub').value=''; this.buildCascade(); this.applyFilters(); });
-    ['f-hub','f-cargo','f-escala','f-supervisor'].forEach(fid=>this.id(fid).addEventListener('change',()=>this.applyFilters()));
     this.id('btn-clear').addEventListener('click',()=>this.clearFilters());
+
+    // Filtros extras — analistas têm cargo/escala/supervisor; supervisores só têm hub
+    if (this.schema==='analistas') {
+      ['f-hub','f-cargo','f-escala','f-supervisor'].forEach(fid=>this.id(fid).addEventListener('change',()=>this.applyFilters()));
+    } else {
+      this.id('f-hub').addEventListener('change',()=>this.applyFilters());
+    }
 
     // CSV upload
     const csvInput  = this.id('csv-input');
@@ -594,10 +646,11 @@ class Tab {
     const panel     = this.id('upload-panel');
     const success   = this.id('upload-success');
     const countSpan = this.id('upload-count');
-    csvInput.addEventListener('change',()=>{ if(csvInput.files[0]) this.handleFile(csvInput.files[0], panel, success, countSpan, csvInput); });
+    const parser    = this.schema==='analistas' ? parseCSVAnalistas : parseCSVSupervisores;
+    csvInput.addEventListener('change',()=>{ if(csvInput.files[0]) this.handleFile(csvInput.files[0], panel, success, countSpan, csvInput, parser); });
     drop.addEventListener('dragover',e=>{ e.preventDefault(); drop.classList.add('dragging'); });
     drop.addEventListener('dragleave',()=>drop.classList.remove('dragging'));
-    drop.addEventListener('drop',e=>{ e.preventDefault(); drop.classList.remove('dragging'); if(e.dataTransfer.files[0]) this.handleFile(e.dataTransfer.files[0],panel,success,countSpan,csvInput); });
+    drop.addEventListener('drop',e=>{ e.preventDefault(); drop.classList.remove('dragging'); if(e.dataTransfer.files[0]) this.handleFile(e.dataTransfer.files[0],panel,success,countSpan,csvInput,parser); });
 
     // Sort
     const tabName = this.p==='a' ? 'analistas' : 'supervisores';
@@ -614,14 +667,15 @@ class Tab {
     });
   }
 
-  handleFile(file, panel, success, countSpan, csvInput) {
+  handleFile(file, panel, success, countSpan, csvInput, parser) {
     const reader = new FileReader();
     reader.onload = e => {
-      const rows = parseCSV(e.target.result);
+      const rows = parser(e.target.result);
       if (!rows.length) { alert('Arquivo inválido ou vazio. Verifique o formato do CSV.'); return; }
       this.loadData(rows);
       panel.classList.remove('open');
-      countSpan.textContent=`— ${rows.length} colaboradores carregados.`;
+      const label = this.schema==='supervisores' ? 'supervisores' : 'colaboradores';
+      countSpan.textContent=`— ${rows.length} ${label} carregados.`;
       success.classList.add('show');
       setTimeout(()=>success.classList.remove('show'),5000);
       csvInput.value='';
@@ -633,8 +687,8 @@ class Tab {
 /* ══════════════════════════════════════
    INSTANCIAR ABAS
 ══════════════════════════════════════ */
-const tabA = new Tab('a');
-const tabS = new Tab('s');
+const tabA = new Tab('a', 'analistas');
+const tabS = new Tab('s', 'supervisores');
 tabA.initEmpty();
 tabS.initEmpty();
 tabA.bindEvents();
