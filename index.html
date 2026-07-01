@@ -193,7 +193,7 @@
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num" id="a-stat-total">—</div>
-        <div class="hero-stat-lbl">Total de colaboradores</div>
+        <div class="hero-stat-lbl">Colaboradores encontrados</div>
       </div>
     </div>
   </div>
@@ -553,6 +553,14 @@ class Tab {
     this.id('result-total').textContent   = this.allData.length;
     this.id('badge-count').textContent    = total;
 
+    // Hero stat: analistas = total filtrado; supervisores = emails únicos no resultado filtrado
+    if (this.schema === 'analistas') {
+      this.id('stat-total').textContent = total;
+    } else {
+      const uniqueEmails = new Set(this.filtered.map(r => r.email).filter(Boolean)).size;
+      this.id('stat-total').textContent = uniqueEmails;
+    }
+
     const tbody = this.id('tbody');
     if (total===0) {
       const cols = this.schema==='analistas' ? 8 : 6;
@@ -607,8 +615,7 @@ class Tab {
   loadData(rows) {
     this.allData = rows;
     this.buildCascade();
-    this.id('stat-total').textContent = rows.length;
-    this.applyFilters();
+    this.applyFilters(); // render() chamado dentro, já atualiza o stat
     document.getElementById('nav-updated').textContent =
       'Atualizado em ' + new Date().toLocaleDateString('pt-BR');
   }
