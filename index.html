@@ -6,310 +6,138 @@
 <title>Matriz de Contatos — LM Fleet BR</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --navy:   #1a2a4a;
-    --navy2:  #243356;
-    --orange: #f05a28;
-    --orange2:#d44d20;
-    --bg:     #f2f3f5;
-    --white:  #ffffff;
-    --border: #e0e2e7;
-    --text:   #1a1a2e;
-    --muted:  #6b7280;
-    --muted2: #9ca3af;
-    --radius: 10px;
-    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --navy:#1a2a4a; --navy2:#243356; --orange:#f05a28;
+    --bg:#f2f3f5; --white:#ffffff; --border:#e0e2e7;
+    --text:#1a1a2e; --muted:#6b7280; --muted2:#9ca3af;
+    --radius:10px; --shadow:0 1px 4px rgba(0,0,0,0.08);
   }
-
-  body {
-    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 14px;
-  }
+  body { font-family:'Nunito Sans','Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; }
 
   /* ── NAV ── */
-  nav {
-    background: var(--navy);
-    padding: 0 32px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  }
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.01em;
-  }
-  .nav-logo {
-    width: 30px; height: 30px;
-    background: var(--orange);
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 900; color: #fff;
-    letter-spacing: -1px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .nav-subtitle {
-    color: rgba(255,255,255,0.55);
-    font-size: 12px;
-    font-weight: 400;
-    margin-top: 1px;
-  }
-  .nav-right { display: flex; align-items: center; gap: 8px; }
-  .nav-updated { color: rgba(255,255,255,0.45); font-size: 11px; }
+  nav { background:var(--navy); padding:0 32px; height:56px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.18); }
+  .nav-brand { display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:15px; }
+  .nav-logo { width:30px; height:30px; background:var(--orange); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:900; color:#fff; cursor:pointer; user-select:none; }
+  .nav-subtitle { color:rgba(255,255,255,0.55); font-size:12px; font-weight:400; margin-top:1px; }
+  .nav-updated { color:rgba(255,255,255,0.45); font-size:11px; }
 
-  /* ── HERO BANNER ── */
-  .hero {
-    background: var(--navy);
-    margin: 24px 32px 0;
-    border-radius: 14px;
-    padding: 24px 32px;
-    border-left: 5px solid var(--orange);
-    position: relative;
-    overflow: hidden;
+  /* ── TABS NAV ── */
+  .tab-bar { background:var(--navy); padding:0 32px; display:flex; gap:4px; border-top:1px solid rgba(255,255,255,0.08); }
+  .tab-btn {
+    padding:10px 20px; font-size:13px; font-weight:600; font-family:inherit;
+    color:rgba(255,255,255,0.5); background:none; border:none; cursor:pointer;
+    border-bottom:3px solid transparent; transition:all 0.15s; white-space:nowrap;
   }
-  .hero::after {
-    content: '';
-    position: absolute;
-    right: -40px; top: -40px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(240,90,40,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .hero h1 { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .hero p  { color: rgba(255,255,255,0.6); font-size: 13px; line-height: 1.5; }
-  .hero-stat {
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    padding: 10px 20px;
-    text-align: center;
-    min-width: 110px;
-  }
-  .hero-stat-num { font-size: 26px; font-weight: 700; color: #fff; line-height: 1; }
-  .hero-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+  .tab-btn:hover { color:rgba(255,255,255,0.8); }
+  .tab-btn.active { color:#fff; border-bottom-color:var(--orange); }
 
-  /* ── MAIN CONTAINER ── */
-  .main { margin: 16px 32px 32px; }
+  /* ── HERO ── */
+  .hero { background:var(--navy); margin:20px 32px 0; border-radius:14px; padding:22px 32px; border-left:5px solid var(--orange); position:relative; overflow:hidden; }
+  .hero::after { content:''; position:absolute; right:-40px; top:-40px; width:200px; height:200px; background:radial-gradient(circle,rgba(240,90,40,0.12) 0%,transparent 70%); pointer-events:none; }
+  .hero-inner { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .hero h1 { color:#fff; font-size:19px; font-weight:700; margin-bottom:4px; }
+  .hero p  { color:rgba(255,255,255,0.6); font-size:13px; line-height:1.5; }
+  .hero-stat { flex-shrink:0; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:10px 20px; text-align:center; min-width:110px; }
+  .hero-stat-num { font-size:26px; font-weight:700; color:#fff; line-height:1; }
+  .hero-stat-lbl { font-size:10px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.06em; margin-top:3px; }
 
-  /* ── SECTION LABEL ── */
-  .section-label {
-    font-size: 11px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 10px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  /* ── UPLOAD PANEL ── */
+  .upload-success { display:none; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:8px; padding:10px 16px; font-size:12px; color:#1b5e20; font-weight:600; margin-bottom:14px; align-items:center; gap:8px; }
+  .upload-success.show { display:flex; }
+  .upload-panel { display:none; background:#f0f4ff; border:1px solid #c7d4f5; border-radius:var(--radius); padding:14px 18px; margin-bottom:14px; gap:16px; align-items:center; flex-wrap:wrap; }
+  .upload-panel.open { display:flex; }
+  .upload-drop { flex:1; min-width:200px; border:2px dashed #a3b4e0; border-radius:8px; padding:14px 20px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; }
+  .upload-drop:hover { border-color:var(--navy); background:rgba(26,42,74,0.04); }
+  .upload-drop.dragging { border-color:var(--orange); background:rgba(240,90,40,0.04); }
+  .upload-drop svg { display:block; margin:0 auto 6px; color:var(--navy); opacity:0.5; }
+  .upload-drop p { font-size:12px; color:var(--muted); }
+  .upload-drop strong { color:var(--navy); }
+  .upload-info { font-size:11px; color:var(--muted); max-width:200px; line-height:1.6; }
+  .upload-info .warn { color:#c0392b; margin-top:6px; display:block; }
+  .upload-close { background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; padding:4px; align-self:flex-start; }
+
+  /* ── MAIN ── */
+  .main { margin:16px 32px 32px; }
+  .section-label { font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
   /* ── FILTER BAR ── */
-  .filter-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 18px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-  }
-  .filter-row { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
-  .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 100px; }
-  .filter-group.search-group { flex: 1.8; min-width: 180px; }
-  .filter-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .filter-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; box-shadow:var(--shadow); margin-bottom:14px; }
+  .filter-row { display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap; }
+  .filter-group { display:flex; flex-direction:column; gap:4px; flex:1; min-width:100px; }
+  .filter-group.search-group { flex:1.8; min-width:180px; }
+  .filter-label { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
+  .filter-input,.filter-select { height:36px; padding:0 10px; border:1px solid var(--border); border-radius:7px; font-size:13px; font-family:inherit; color:var(--text); background:var(--bg); transition:border-color 0.15s,box-shadow 0.15s; width:100%; }
+  .filter-input:focus,.filter-select:focus { outline:none; border-color:var(--navy); box-shadow:0 0 0 3px rgba(26,42,74,0.08); }
+  .filter-select:disabled { opacity:0.45; cursor:not-allowed; }
+  .search-wrap { position:relative; }
+  .search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted2); pointer-events:none; }
+  .search-wrap .filter-input { padding-left:32px; }
+  .filter-divider { width:1px; background:var(--border); height:36px; flex-shrink:0; align-self:flex-end; }
+  .btn-clear { height:36px; padding:0 14px; border:1px solid var(--border); border-radius:7px; font-size:12px; font-family:inherit; color:var(--muted); background:transparent; cursor:pointer; white-space:nowrap; transition:all 0.15s; flex-shrink:0; align-self:flex-end; }
+  .btn-clear:hover { border-color:var(--navy); color:var(--navy); background:rgba(26,42,74,0.04); }
 
-  .filter-input, .filter-select {
-    height: 36px; padding: 0 10px;
-    border: 1px solid var(--border);
-    border-radius: 7px; font-size: 13px; font-family: inherit;
-    color: var(--text); background: var(--bg);
-    transition: border-color 0.15s, box-shadow 0.15s; width: 100%;
-  }
-  .filter-input:focus, .filter-select:focus {
-    outline: none; border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(26,42,74,0.08);
-  }
-  /* disabled/cascade state */
-  .filter-select:disabled { opacity: 0.45; cursor: not-allowed; }
-
-  .search-wrap { position: relative; }
-  .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted2); pointer-events: none; }
-  .search-wrap .filter-input { padding-left: 32px; }
-
-  .filter-divider { width: 1px; background: var(--border); height: 36px; flex-shrink: 0; align-self: flex-end; }
-  .btn-clear {
-    height: 36px; padding: 0 14px;
-    border: 1px solid var(--border); border-radius: 7px;
-    font-size: 12px; font-family: inherit; color: var(--muted);
-    background: transparent; cursor: pointer; white-space: nowrap;
-    transition: all 0.15s; flex-shrink: 0; align-self: flex-end;
-  }
-  .btn-clear:hover { border-color: var(--navy); color: var(--navy); background: rgba(26,42,74,0.04); }
-
-  /* ── TABLE CARD ── */
-  .table-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .table-toolbar {
-    padding: 10px 18px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid var(--border); background: #fafbfc;
-  }
-  .result-count { font-size: 12px; color: var(--muted); }
-  .result-count strong { color: var(--navy); font-weight: 700; }
-  .result-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: rgba(26,42,74,0.06); color: var(--navy);
-    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
-  }
-
-  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
-  thead tr { background: #f7f8fa; }
-  th {
-    padding: 9px 14px; text-align: left;
-    font-size: 10px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap; overflow: hidden; user-select: none;
-  }
-  th.sortable { cursor: pointer; }
-  th.sortable:hover { color: var(--navy); }
-  th .sort-icon { margin-left: 3px; opacity: 0.4; font-size: 10px; }
-  th.sort-asc .sort-icon, th.sort-desc .sort-icon { opacity: 1; color: var(--orange); }
-
-  td {
-    padding: 10px 14px; border-bottom: 1px solid var(--border);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    color: var(--text); vertical-align: middle;
-  }
-  tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: rgba(26,42,74,0.025); }
-
-  .col-nome    { width: 17%; }
-  .col-email   { width: 20%; }
-  .col-hub     { width: 16%; }
-  .col-cargo   { width: 10%; }
-  .col-escala  { width: 7%; }
-  .col-dias    { width: 13%; }
-  .col-jornada { width: 10%; }
-  .col-sup     { width: 13%; }
-
-  .td-name  { font-weight: 600; color: var(--navy); }
-  .td-email { color: var(--orange); font-size: 12px; }
-
-  .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-  .badge-transp  { background: #e8f0fe; color: #1a4da0; }
-  .badge-suporte { background: #e8f5e9; color: #1b6b2f; }
-  .badge-6x1     { background: #fff3e0; color: #b84f00; }
-  .badge-5x2     { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
-
-  /* ── EMPTY STATE ── */
-  .empty-state { padding: 48px; text-align: center; color: var(--muted); }
-  .empty-state svg { margin-bottom: 12px; opacity: 0.3; }
-  .empty-state p { font-size: 13px; }
+  /* ── TABLE ── */
+  .table-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .table-toolbar { padding:10px 18px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); background:#fafbfc; }
+  .result-count { font-size:12px; color:var(--muted); }
+  .result-count strong { color:var(--navy); font-weight:700; }
+  .result-badge { display:inline-flex; align-items:center; gap:4px; background:rgba(26,42,74,0.06); color:var(--navy); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed; }
+  thead tr { background:#f7f8fa; }
+  th { padding:9px 14px; text-align:left; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid var(--border); white-space:nowrap; overflow:hidden; user-select:none; }
+  th.sortable { cursor:pointer; }
+  th.sortable:hover { color:var(--navy); }
+  th .sort-icon { margin-left:3px; opacity:0.4; font-size:10px; }
+  th.sort-asc .sort-icon, th.sort-desc .sort-icon { opacity:1; color:var(--orange); }
+  td { padding:10px 14px; border-bottom:1px solid var(--border); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text); vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  tbody tr:hover td { background:rgba(26,42,74,0.025); }
+  .td-name  { font-weight:600; color:var(--navy); }
+  .td-email { color:var(--orange); font-size:12px; }
+  .badge { display:inline-block; padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
+  .badge-transp  { background:#e8f0fe; color:#1a4da0; }
+  .badge-suporte { background:#e8f5e9; color:#1b6b2f; }
+  .badge-6x1     { background:#fff3e0; color:#b84f00; }
+  .badge-5x2     { background:#f3f4f6; color:#4b5563; border:1px solid #e5e7eb; }
+  .empty-state { padding:48px; text-align:center; color:var(--muted); }
+  .empty-state svg { margin-bottom:12px; opacity:0.3; }
+  .empty-state p { font-size:13px; }
+  .loading-row td { text-align:center; padding:40px; color:var(--muted); font-size:13px; }
 
   /* ── PAGINATION ── */
-  .pagination {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 18px; border-top: 1px solid var(--border); background: #fafbfc;
-  }
-  .page-info { font-size: 12px; color: var(--muted); }
-  .page-btns { display: flex; gap: 4px; }
-  .page-btn {
-    min-width: 30px; height: 30px; padding: 0 6px;
-    border: 1px solid var(--border); border-radius: 6px;
-    background: var(--white); font-size: 12px; font-family: inherit;
-    color: var(--text); cursor: pointer; transition: all 0.12s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .page-btn:hover:not(:disabled) { border-color: var(--navy); color: var(--navy); }
-  .page-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); font-weight: 700; }
-  .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .pagination { display:flex; align-items:center; justify-content:space-between; padding:10px 18px; border-top:1px solid var(--border); background:#fafbfc; }
+  .page-info { font-size:12px; color:var(--muted); }
+  .page-btns { display:flex; gap:4px; }
+  .page-btn { min-width:30px; height:30px; padding:0 6px; border:1px solid var(--border); border-radius:6px; background:var(--white); font-size:12px; font-family:inherit; color:var(--text); cursor:pointer; transition:all 0.12s; display:flex; align-items:center; justify-content:center; }
+  .page-btn:hover:not(:disabled) { border-color:var(--navy); color:var(--navy); }
+  .page-btn.active { background:var(--navy); color:#fff; border-color:var(--navy); font-weight:700; }
+  .page-btn:disabled { opacity:0.35; cursor:not-allowed; }
 
-  /* ── ADMIN ── */
-  .modal-bg {
-    display: none; position: fixed; inset: 0;
-    background: rgba(10,15,30,0.55); backdrop-filter: blur(2px);
-    z-index: 200; align-items: center; justify-content: center;
-  }
-  .modal-bg.open { display: flex; }
-  .modal {
-    background: var(--white); border-radius: 14px;
-    padding: 28px 28px 24px; width: 340px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    border-top: 4px solid var(--orange);
-  }
-  .modal-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
-  .modal-field { margin-bottom: 14px; }
-  .modal-field label { display: block; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
-  .modal-input {
-    width: 100%; height: 38px; padding: 0 12px;
-    border: 1px solid var(--border); border-radius: 7px;
-    font-size: 13px; font-family: inherit;
-    background: var(--bg); color: var(--text); transition: border-color 0.15s;
-  }
-  .modal-input:focus { outline: none; border-color: var(--navy); }
-  .modal-input.error { border-color: #e53e3e; }
-  .modal-error { font-size: 11px; color: #e53e3e; margin-top: 4px; display: none; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
-  .btn-cancel2 { height: 36px; padding: 0 16px; border: 1px solid var(--border); border-radius: 7px; background: transparent; font-size: 13px; font-family: inherit; color: var(--muted); cursor: pointer; }
-  .btn-confirm { height: 36px; padding: 0 18px; border: none; border-radius: 7px; background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background 0.15s; }
-  .btn-confirm:hover { background: var(--navy2); }
+  /* ── TAB PAGES ── */
+  .tab-page { display:none; }
+  .tab-page.active { display:block; }
 
-  /* upload panel */
-  .upload-panel {
-    display: none; background: #f0f4ff;
-    border: 1px solid #c7d4f5; border-radius: var(--radius);
-    padding: 14px 18px; margin-bottom: 14px;
-    gap: 16px; align-items: center; flex-wrap: wrap;
-  }
-  .upload-panel.open { display: flex; }
-  .upload-drop {
-    flex: 1; min-width: 200px;
-    border: 2px dashed #a3b4e0; border-radius: 8px;
-    padding: 14px 20px; text-align: center; cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .upload-drop:hover { border-color: var(--navy); background: rgba(26,42,74,0.04); }
-  .upload-drop.dragging { border-color: var(--orange); background: rgba(240,90,40,0.04); }
-  .upload-drop svg { display: block; margin: 0 auto 6px; color: var(--navy); opacity: 0.5; }
-  .upload-drop p { font-size: 12px; color: var(--muted); }
-  .upload-drop strong { color: var(--navy); }
-  .upload-info { font-size: 11px; color: var(--muted); max-width: 200px; line-height: 1.6; }
-  .upload-info .warn { color: #c0392b; margin-top: 6px; display: block; }
-  .upload-close { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 16px; padding: 4px; align-self: flex-start; }
-  .upload-success {
-    display: none; background: #e8f5e9; border: 1px solid #a5d6a7;
-    border-radius: 8px; padding: 10px 16px; font-size: 12px;
-    color: #1b5e20; font-weight: 600; margin-bottom: 14px;
-    align-items: center; gap: 8px;
-  }
-  .upload-success.show { display: flex; }
+  /* ── ADMIN MODAL ── */
+  .modal-bg { display:none; position:fixed; inset:0; background:rgba(10,15,30,0.55); backdrop-filter:blur(2px); z-index:200; align-items:center; justify-content:center; }
+  .modal-bg.open { display:flex; }
+  .modal { background:var(--white); border-radius:14px; padding:28px 28px 24px; width:340px; box-shadow:0 20px 60px rgba(0,0,0,0.2); border-top:4px solid var(--orange); }
+  .modal-title { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .modal-sub { font-size:12px; color:var(--muted); margin-bottom:18px; line-height:1.5; }
+  .modal-field { margin-bottom:14px; }
+  .modal-field label { display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:5px; }
+  .modal-input { width:100%; height:38px; padding:0 12px; border:1px solid var(--border); border-radius:7px; font-size:13px; font-family:inherit; background:var(--bg); color:var(--text); transition:border-color 0.15s; }
+  .modal-input:focus { outline:none; border-color:var(--navy); }
+  .modal-input.error { border-color:#e53e3e; }
+  .modal-error { font-size:11px; color:#e53e3e; margin-top:4px; display:none; }
+  .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:4px; }
+  .btn-cancel2 { height:36px; padding:0 16px; border:1px solid var(--border); border-radius:7px; background:transparent; font-size:13px; font-family:inherit; color:var(--muted); cursor:pointer; }
+  .btn-confirm { height:36px; padding:0 18px; border:none; border-radius:7px; background:var(--navy); color:#fff; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; }
+  .btn-confirm:hover { background:var(--navy2); }
 
-  /* ── FOOTER ── */
-  footer { text-align: center; padding: 16px 32px 28px; font-size: 11px; color: var(--muted2); }
-  footer span { cursor: default; user-select: none; }
-
-  .loading-row td { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
+  footer { text-align:center; padding:16px 32px 28px; font-size:11px; color:var(--muted2); }
+  footer span { cursor:default; user-select:none; }
 </style>
 </head>
 <body>
@@ -323,133 +151,189 @@
       <div class="nav-subtitle">LM Fleet BR</div>
     </div>
   </div>
-  <div class="nav-right">
-    <span class="nav-updated" id="nav-updated"></span>
-  </div>
+  <span class="nav-updated" id="nav-updated"></span>
 </nav>
 
-<!-- UPLOAD PANEL (oculto) -->
-<div style="margin: 14px 32px 0;" id="upload-wrap">
-  <div class="upload-success" id="upload-success">
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-    Matriz atualizada com sucesso! <span id="upload-count" style="font-weight:400;margin-left:4px;"></span>
-  </div>
-  <div class="upload-panel" id="upload-panel">
-    <div class="upload-drop" id="upload-drop" onclick="document.getElementById('csv-input').click()">
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
-      </svg>
-      <p><strong>Solte o CSV aqui</strong> ou clique para selecionar</p>
-      <p style="font-size:10px;margin-top:3px;opacity:0.7;">matriz_contatos_limpa.csv</p>
-      <input type="file" id="csv-input" accept=".csv" style="display:none">
-    </div>
-    <div class="upload-info">
-      Colunas esperadas: Nome, Email, Regional, Sub Regional, Hub name, Hub code, Cargo, Escala, Dias de escala, Jornada de Trabalho, Nome do Supervisor.
-      <span class="warn">⚠ Não incluir Observações nem Data de admissão.</span>
-    </div>
-    <button class="upload-close" onclick="document.getElementById('upload-panel').classList.remove('open')" title="Fechar">✕</button>
-  </div>
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="analistas">Analistas de Transporte</button>
+  <button class="tab-btn" data-tab="supervisores">Supervisores de Transporte</button>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div>
-      <h1>Matriz de Contatos · LM Fleet BR</h1>
-      <p>Consulte e filtre os colaboradores do time de logística. Use os filtros abaixo para encontrar rapidamente o contato que precisa.</p>
+<!-- ══════════════════════════════════════
+     ABA: ANALISTAS
+══════════════════════════════════════ -->
+<div class="tab-page active" id="tab-analistas">
+
+  <div style="margin:14px 32px 0;">
+    <div class="upload-success" id="a-upload-success">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      Matriz atualizada! <span id="a-upload-count" style="font-weight:400;margin-left:4px;"></span>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num" id="stat-total">—</div>
-      <div class="hero-stat-lbl">Total de colaboradores</div>
+    <div class="upload-panel" id="a-upload-panel">
+      <div class="upload-drop" id="a-upload-drop" onclick="document.getElementById('a-csv-input').click()">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p><strong>Solte o CSV aqui</strong> ou clique para selecionar</p>
+        <p style="font-size:10px;margin-top:3px;opacity:0.7;">analistas_transporte.csv</p>
+        <input type="file" id="a-csv-input" accept=".csv" style="display:none">
+      </div>
+      <div class="upload-info">
+        Colunas: Nome, Email, Regional, Sub Regional, Hub name, Cargo, Escala, Dias de escala, Jornada de Trabalho, Supervisor.
+        <span class="warn">⚠ Não incluir Observações nem Data de admissão.</span>
+      </div>
+      <button class="upload-close" onclick="document.getElementById('a-upload-panel').classList.remove('open')">✕</button>
     </div>
   </div>
-</div>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="section-label">Filtros e busca</div>
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Analistas de Transporte</h1>
+        <p>Consulte e filtre os analistas do time de logística. Use os filtros para encontrar rapidamente o contato que precisa.</p>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="a-stat-total">—</div>
+        <div class="hero-stat-lbl">Total de colaboradores</div>
+      </div>
+    </div>
+  </div>
 
-  <!-- FILTER BAR -->
-  <div class="filter-card">
-    <div class="filter-row">
-      <div class="filter-group search-group">
-        <div class="filter-label">Buscar</div>
-        <div class="search-wrap">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-          </svg>
-          <input class="filter-input" id="f-search" placeholder="Nome ou e-mail..." type="text">
+  <div class="main">
+    <div class="section-label">Filtros e busca</div>
+    <div class="filter-card">
+      <div class="filter-row">
+        <div class="filter-group search-group">
+          <div class="filter-label">Buscar</div>
+          <div class="search-wrap">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+            <input class="filter-input" id="a-f-search" placeholder="Nome ou e-mail..." type="text">
+          </div>
         </div>
+        <div class="filter-group"><div class="filter-label">Regional</div><select class="filter-select" id="a-f-regional"><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Sub Regional</div><select class="filter-select" id="a-f-subregional" disabled><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Hub</div><select class="filter-select" id="a-f-hub" disabled><option value="">Todos</option></select></div>
+        <div class="filter-group"><div class="filter-label">Cargo</div><select class="filter-select" id="a-f-cargo"><option value="">Todos</option></select></div>
+        <div class="filter-group"><div class="filter-label">Escala</div><select class="filter-select" id="a-f-escala"><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Supervisor</div><select class="filter-select" id="a-f-supervisor"><option value="">Todos</option></select></div>
+        <div class="filter-divider"></div>
+        <button class="btn-clear" id="a-btn-clear">Limpar filtros</button>
       </div>
-      <div class="filter-group">
-        <div class="filter-label">Regional</div>
-        <select class="filter-select" id="f-regional"><option value="">Todas</option></select>
+    </div>
+
+    <div class="section-label">Colaboradores</div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="result-count">Exibindo <strong id="a-result-showing">—</strong> de <strong id="a-result-total">—</strong> colaboradores</div>
+        <div class="result-badge"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg><span id="a-badge-count">—</span> resultados</div>
       </div>
-      <div class="filter-group">
-        <div class="filter-label">Sub Regional</div>
-        <select class="filter-select" id="f-subregional"><option value="">Todas</option></select>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr>
+            <th class="sortable" style="width:17%" data-tab="analistas" data-col="nome">Nome <span class="sort-icon">↕</span></th>
+            <th style="width:20%">E-mail</th>
+            <th class="sortable" style="width:16%" data-tab="analistas" data-col="hub">Hub <span class="sort-icon">↕</span></th>
+            <th style="width:10%">Cargo</th>
+            <th style="width:7%">Escala</th>
+            <th style="width:13%">Dias de escala</th>
+            <th style="width:10%">Jornada</th>
+            <th class="sortable" style="width:13%" data-tab="analistas" data-col="supervisor">Supervisor <span class="sort-icon">↕</span></th>
+          </tr></thead>
+          <tbody id="a-tbody"></tbody>
+        </table>
       </div>
-      <div class="filter-group">
-        <div class="filter-label">Hub</div>
-        <select class="filter-select" id="f-hub"><option value="">Todos</option></select>
+      <div class="pagination"><div class="page-info" id="a-page-info"></div><div class="page-btns" id="a-page-btns"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ABA: SUPERVISORES
+══════════════════════════════════════ -->
+<div class="tab-page" id="tab-supervisores">
+
+  <div style="margin:14px 32px 0;">
+    <div class="upload-success" id="s-upload-success">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      Matriz atualizada! <span id="s-upload-count" style="font-weight:400;margin-left:4px;"></span>
+    </div>
+    <div class="upload-panel" id="s-upload-panel">
+      <div class="upload-drop" id="s-upload-drop" onclick="document.getElementById('s-csv-input').click()">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        <p><strong>Solte o CSV aqui</strong> ou clique para selecionar</p>
+        <p style="font-size:10px;margin-top:3px;opacity:0.7;">supervisores_transporte.csv</p>
+        <input type="file" id="s-csv-input" accept=".csv" style="display:none">
       </div>
-      <div class="filter-group">
-        <div class="filter-label">Cargo</div>
-        <select class="filter-select" id="f-cargo"><option value="">Todos</option></select>
+      <div class="upload-info">
+        Colunas: Nome, Email, Regional, Sub Regional, Hub name, Cargo, Escala, Dias de escala, Jornada de Trabalho, Supervisor (ou Coordenador).
+        <span class="warn">⚠ Não incluir colunas sensíveis.</span>
       </div>
-      <div class="filter-group">
-        <div class="filter-label">Escala</div>
-        <select class="filter-select" id="f-escala"><option value="">Todas</option></select>
-      </div>
-      <div class="filter-group">
-        <div class="filter-label">Supervisor</div>
-        <select class="filter-select" id="f-supervisor"><option value="">Todos</option></select>
-      </div>
-      <div class="filter-divider"></div>
-      <button class="btn-clear" id="btn-clear">Limpar filtros</button>
+      <button class="upload-close" onclick="document.getElementById('s-upload-panel').classList.remove('open')">✕</button>
     </div>
   </div>
 
-  <!-- TABLE -->
-  <div class="section-label">Colaboradores</div>
-  <div class="table-card">
-    <div class="table-toolbar">
-      <div class="result-count">
-        Exibindo <strong id="result-showing">—</strong> de <strong id="result-total">—</strong> colaboradores
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Supervisores de Transporte</h1>
+        <p>Consulte e filtre os supervisores do time de logística. Use os filtros para encontrar rapidamente o contato que precisa.</p>
       </div>
-      <div class="result-badge">
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        <span id="badge-count">—</span> resultados
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="s-stat-total">—</div>
+        <div class="hero-stat-lbl">Total de colaboradores</div>
       </div>
     </div>
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th class="col-nome sortable" data-col="nome">Nome <span class="sort-icon">↕</span></th>
-            <th class="col-email">E-mail</th>
-            <th class="col-hub sortable" data-col="hub">Hub <span class="sort-icon">↕</span></th>
-            <th class="col-cargo">Cargo</th>
-            <th class="col-escala">Escala</th>
-            <th class="col-dias">Dias de escala</th>
-            <th class="col-jornada">Jornada</th>
-            <th class="col-sup sortable" data-col="supervisor">Supervisor <span class="sort-icon">↕</span></th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
+  </div>
+
+  <div class="main">
+    <div class="section-label">Filtros e busca</div>
+    <div class="filter-card">
+      <div class="filter-row">
+        <div class="filter-group search-group">
+          <div class="filter-label">Buscar</div>
+          <div class="search-wrap">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+            <input class="filter-input" id="s-f-search" placeholder="Nome ou e-mail..." type="text">
+          </div>
+        </div>
+        <div class="filter-group"><div class="filter-label">Regional</div><select class="filter-select" id="s-f-regional"><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Sub Regional</div><select class="filter-select" id="s-f-subregional" disabled><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Hub</div><select class="filter-select" id="s-f-hub" disabled><option value="">Todos</option></select></div>
+        <div class="filter-group"><div class="filter-label">Cargo</div><select class="filter-select" id="s-f-cargo"><option value="">Todos</option></select></div>
+        <div class="filter-group"><div class="filter-label">Escala</div><select class="filter-select" id="s-f-escala"><option value="">Todas</option></select></div>
+        <div class="filter-group"><div class="filter-label">Coordenador</div><select class="filter-select" id="s-f-supervisor"><option value="">Todos</option></select></div>
+        <div class="filter-divider"></div>
+        <button class="btn-clear" id="s-btn-clear">Limpar filtros</button>
+      </div>
     </div>
-    <div class="pagination" id="pagination">
-      <div class="page-info" id="page-info">—</div>
-      <div class="page-btns" id="page-btns"></div>
+
+    <div class="section-label">Colaboradores</div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="result-count">Exibindo <strong id="s-result-showing">—</strong> de <strong id="s-result-total">—</strong> colaboradores</div>
+        <div class="result-badge"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg><span id="s-badge-count">—</span> resultados</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr>
+            <th class="sortable" style="width:17%" data-tab="supervisores" data-col="nome">Nome <span class="sort-icon">↕</span></th>
+            <th style="width:20%">E-mail</th>
+            <th class="sortable" style="width:16%" data-tab="supervisores" data-col="hub">Hub <span class="sort-icon">↕</span></th>
+            <th style="width:10%">Cargo</th>
+            <th style="width:7%">Escala</th>
+            <th style="width:13%">Dias de escala</th>
+            <th style="width:10%">Jornada</th>
+            <th class="sortable" style="width:13%" data-tab="supervisores" data-col="supervisor">Coordenador <span class="sort-icon">↕</span></th>
+          </tr></thead>
+          <tbody id="s-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination"><div class="page-info" id="s-page-info"></div><div class="page-btns" id="s-page-btns"></div></div>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <span id="footer-trigger">LM Fleet BR · Matriz de Contatos · 2025</span>
-</footer>
+<footer><span id="footer-trigger">LM Fleet BR · Matriz de Contatos · 2025</span></footer>
 
 <!-- ADMIN MODAL -->
 <div class="modal-bg" id="admin-modal">
@@ -475,207 +359,172 @@
 const ADMIN_PASSWORD = 'lmfleet2025';
 const PAGE_SIZE = 50;
 
-let allData = [];
-let filtered = [];
-let currentPage = 1;
-let sortCol = '';
-let sortDir = 'asc';
-
-/* ── CSV PARSER ── */
+/* ══════════════════════════════════════
+   CSV PARSER (compartilhado)
+══════════════════════════════════════ */
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length < 2) return [];
   const delim = lines[0].includes(';') ? ';' : ',';
-  const raw = lines[0].split(delim).map(h => h.trim().replace(/^"|"$/g, ''));
+  const raw = lines[0].split(delim).map(h => h.trim().replace(/^"|"$/g,''));
+  const norm = s => s.toLowerCase().trim();
   const col = (variants) => {
-    for (const v of variants) {
-      const idx = raw.findIndex(h => h.toLowerCase().includes(v.toLowerCase()));
-      if (idx >= 0) return idx;
-    }
+    for (const v of variants) { const i = raw.findIndex(h => norm(h) === norm(v)); if (i>=0) return i; }
+    for (const v of variants) { const i = raw.findIndex(h => norm(h).includes(norm(v))); if (i>=0) return i; }
     return -1;
   };
+  const iSup     = col(['nome do supervisor','supervisor','coordenador','nome do coordenador']);
   const iNome    = col(['nome']);
-  const iEmail   = col(['email', 'e-mail']);
+  const iEmail   = col(['email','e-mail']);
   const iRegion  = col(['regional']);
-  const iSubReg  = col(['sub regional', 'subregional']);
-  const iHub     = col(['hub name', 'hub nome', 'hub']);
-  const iHubCode = col(['hub code', 'hub cod']);
+  const iSubReg  = col(['sub regional','subregional']);
+  const iHub     = col(['hub name','hub nome','hub']);
+  const iHubCode = col(['hub code','hub cod']);
   const iCargo   = col(['cargo']);
   const iEscala  = col(['escala']);
-  const iDias    = col(['dias de escala', 'dias']);
-  const iJornada = col(['jornada']);
-  const iSup     = col(['supervisor', 'nome do supervisor']);
+  const iDias    = col(['dias de escala','dias']);
+  const iJornada = col(['jornada de trabalho','jornada']);
   const rows = [];
-  for (let i = 1; i < lines.length; i++) {
+  for (let i=1; i<lines.length; i++) {
     if (!lines[i].trim()) continue;
-    const cells = [];
-    let cur = '', inQ = false;
-    for (const ch of lines[i] + delim) {
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === delim && !inQ) { cells.push(cur.trim()); cur = ''; }
-      else cur += ch;
+    const cells=[]; let cur='', inQ=false;
+    for (const ch of lines[i]+delim) {
+      if (ch==='"') { inQ=!inQ; }
+      else if (ch===delim && !inQ) { cells.push(cur.trim()); cur=''; }
+      else cur+=ch;
     }
-    const g = (idx) => (idx >= 0 && cells[idx] !== undefined) ? cells[idx].replace(/^"|"$/g,'').trim() : '';
-    rows.push({
-      nome: g(iNome), email: g(iEmail),
-      regional: g(iRegion), subregional: g(iSubReg),
-      hub: g(iHub), hubcode: g(iHubCode),
-      cargo: g(iCargo), escala: g(iEscala),
-      dias: g(iDias), jornada: g(iJornada),
-      supervisor: g(iSup),
-    });
+    const g = idx => (idx>=0 && cells[idx]!==undefined) ? cells[idx].replace(/^"|"$/g,'').trim() : '';
+    rows.push({ nome:g(iNome), email:g(iEmail), regional:g(iRegion), subregional:g(iSubReg),
+      hub:g(iHub), hubcode:g(iHubCode), cargo:g(iCargo), escala:g(iEscala),
+      dias:g(iDias), jornada:g(iJornada), supervisor:g(iSup) });
   }
   return rows.filter(r => r.nome);
 }
 
-/* ── LOAD DATA ── */
-function loadData(rows) {
-  allData = rows;
-  buildCascadeFilters();
-  updateStats();
-  applyFilters();
-  const now = new Date();
-  document.getElementById('nav-updated').textContent =
-    'Atualizado em ' + now.toLocaleDateString('pt-BR');
-}
-
-/* ── STATS ── */
-function updateStats() {
-  document.getElementById('stat-total').textContent = allData.length;
-}
-
-/* ── CASCADE FILTERS ── */
-// Returns unique values of `key` from rows matching the upstream selections
-function uniqueFrom(rows, key) {
-  return [...new Set(rows.map(r => r[key]).filter(Boolean))].sort((a,b) => a.localeCompare(b,'pt'));
-}
-
-function buildCascadeFilters() {
-  const regional    = document.getElementById('f-regional').value;
-  const subregional = document.getElementById('f-subregional').value;
-
-  // Regional: always all data
-  repopulate('f-regional',    uniqueFrom(allData, 'regional'),    'Todas',  regional);
-
-  // Sub Regional: filtered by selected regional
-  const afterRegional = regional ? allData.filter(r => r.regional === regional) : allData;
-  repopulate('f-subregional', uniqueFrom(afterRegional, 'subregional'), 'Todas', subregional);
-  document.getElementById('f-subregional').disabled = !regional;
-
-  // Hub: filtered by regional + subregional
-  const afterSub = subregional ? afterRegional.filter(r => r.subregional === subregional) : afterRegional;
-  const hubVal = document.getElementById('f-hub').value;
-  repopulate('f-hub', uniqueFrom(afterSub, 'hub'), 'Todos', hubVal);
-  document.getElementById('f-hub').disabled = !(regional || subregional);
-
-  // Cargo, Escala, Supervisor: always full list (not hierarchical)
-  repopulate('f-cargo',      uniqueFrom(allData, 'cargo'),      'Todos',  document.getElementById('f-cargo').value);
-  repopulate('f-escala',     uniqueFrom(allData, 'escala'),     'Todas',  document.getElementById('f-escala').value);
-  repopulate('f-supervisor', uniqueFrom(allData, 'supervisor'), 'Todos',  document.getElementById('f-supervisor').value);
-}
-
-function repopulate(id, values, emptyLabel, keepVal) {
-  const sel = document.getElementById(id);
-  sel.innerHTML = `<option value="">${emptyLabel}</option>`;
-  values.forEach(v => {
-    const o = document.createElement('option');
-    o.value = o.text = v;
-    if (v === keepVal) o.selected = true;
-    sel.appendChild(o);
-  });
-  // If previously selected value no longer in list, reset it
-  if (keepVal && !values.includes(keepVal)) sel.value = '';
-}
-
-/* ── APPLY FILTERS ── */
-function getFilters() {
-  return {
-    search:     document.getElementById('f-search').value.toLowerCase().trim(),
-    regional:   document.getElementById('f-regional').value,
-    subregional:document.getElementById('f-subregional').value,
-    hub:        document.getElementById('f-hub').value,
-    cargo:      document.getElementById('f-cargo').value,
-    escala:     document.getElementById('f-escala').value,
-    supervisor: document.getElementById('f-supervisor').value,
-  };
-}
-
-function applyFilters() {
-  const f = getFilters();
-  filtered = allData.filter(r => {
-    if (f.search && !r.nome.toLowerCase().includes(f.search) && !r.email.toLowerCase().includes(f.search)) return false;
-    if (f.regional    && r.regional    !== f.regional)    return false;
-    if (f.subregional && r.subregional !== f.subregional) return false;
-    if (f.hub         && r.hub         !== f.hub)         return false;
-    if (f.cargo       && r.cargo       !== f.cargo)       return false;
-    if (f.escala      && r.escala      !== f.escala)      return false;
-    if (f.supervisor  && r.supervisor  !== f.supervisor)  return false;
-    return true;
-  });
-  if (sortCol) {
-    filtered.sort((a, b) => {
-      const av = (a[sortCol] || '').toLowerCase();
-      const bv = (b[sortCol] || '').toLowerCase();
-      return sortDir === 'asc' ? av.localeCompare(bv, 'pt') : bv.localeCompare(av, 'pt');
-    });
-  }
-  currentPage = 1;
-  render();
-}
-
-function clearFilters() {
-  document.getElementById('f-search').value = '';
-  ['f-regional','f-subregional','f-hub','f-cargo','f-escala','f-supervisor']
-    .forEach(id => { document.getElementById(id).value = ''; });
-  sortCol = ''; sortDir = 'asc';
-  document.querySelectorAll('th.sortable').forEach(th => {
-    th.classList.remove('sort-asc','sort-desc');
-    th.querySelector('.sort-icon').textContent = '↕';
-  });
-  buildCascadeFilters();
-  applyFilters();
-}
-
-/* ── RENDER ── */
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function badgeCargo(cargo) {
-  const lower = (cargo || '').toLowerCase();
-  if (lower.includes('suporte'))   return `<span class="badge badge-suporte">Suporte</span>`;
-  if (lower.includes('transporte'))return `<span class="badge badge-transp">Transporte</span>`;
+  const l=(cargo||'').toLowerCase();
+  if (l.includes('suporte'))    return `<span class="badge badge-suporte">Suporte</span>`;
+  if (l.includes('transporte')) return `<span class="badge badge-transp">Transporte</span>`;
   return `<span class="badge badge-transp">${esc(cargo)}</span>`;
 }
 function badgeEscala(escala) {
-  const e = (escala || '').toUpperCase();
-  if (e === '5X2') return `<span class="badge badge-5x2">5X2</span>`;
-  return `<span class="badge badge-6x1">${esc(escala) || '—'}</span>`;
+  return (escala||'').toUpperCase()==='5X2'
+    ? `<span class="badge badge-5x2">5X2</span>`
+    : `<span class="badge badge-6x1">${esc(escala)||'—'}</span>`;
 }
 
-function render() {
-  const tbody = document.getElementById('tbody');
-  const total = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  if (currentPage > totalPages) currentPage = totalPages;
-
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const page  = filtered.slice(start, start + PAGE_SIZE);
-
-  document.getElementById('result-showing').textContent =
-    total === 0 ? '0' : `${start + 1}–${Math.min(start + PAGE_SIZE, total)}`;
-  document.getElementById('result-total').textContent = allData.length;
-  document.getElementById('badge-count').textContent  = total;
-
-  if (total === 0) {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
-      <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-      </svg>
-      <p>Nenhum resultado encontrado para os filtros aplicados.</p>
-    </div></td></tr>`;
-    renderPagination(0, 1);
-    return;
+/* ══════════════════════════════════════
+   CLASSE Tab — estado independente por aba
+══════════════════════════════════════ */
+class Tab {
+  constructor(prefix) {
+    this.p = prefix; // 'a' ou 's'
+    this.allData = [];
+    this.filtered = [];
+    this.currentPage = 1;
+    this.sortCol = '';
+    this.sortDir = 'asc';
   }
 
-  tbody.innerHTML = page.map(r => `
-    <tr>
+  id(name)  { return document.getElementById(`${this.p}-${name}`); }
+  fval(name){ return this.id(`f-${name}`).value; }
+
+  /* ── Unique values ── */
+  uniqueFrom(rows, key) {
+    return [...new Set(rows.map(r=>r[key]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+  }
+
+  /* ── Cascade filters ── */
+  buildCascade() {
+    const regional    = this.fval('regional');
+    const subregional = this.fval('subregional');
+    this.repopulate('f-regional',    this.uniqueFrom(this.allData,'regional'),    'Todas', regional);
+    const afterReg = regional ? this.allData.filter(r=>r.regional===regional) : this.allData;
+    this.repopulate('f-subregional', this.uniqueFrom(afterReg,'subregional'),     'Todas', subregional);
+    this.id('f-subregional').disabled = !regional;
+    const afterSub = subregional ? afterReg.filter(r=>r.subregional===subregional) : afterReg;
+    this.repopulate('f-hub', this.uniqueFrom(afterSub,'hub'), 'Todos', this.fval('hub'));
+    this.id('f-hub').disabled = !(regional||subregional);
+    this.repopulate('f-cargo',      this.uniqueFrom(this.allData,'cargo'),      'Todos', this.fval('cargo'));
+    this.repopulate('f-escala',     this.uniqueFrom(this.allData,'escala'),     'Todas', this.fval('escala'));
+    this.repopulate('f-supervisor', this.uniqueFrom(this.allData,'supervisor'), 'Todos', this.fval('supervisor'));
+  }
+
+  repopulate(fid, values, emptyLabel, keepVal) {
+    const sel = this.id(fid);
+    sel.innerHTML = `<option value="">${emptyLabel}</option>`;
+    values.forEach(v => {
+      const o = document.createElement('option');
+      o.value = o.text = v;
+      if (v===keepVal) o.selected=true;
+      sel.appendChild(o);
+    });
+    if (keepVal && !values.includes(keepVal)) sel.value='';
+  }
+
+  /* ── Apply filters ── */
+  applyFilters() {
+    const f = {
+      search: this.id('f-search').value.toLowerCase().trim(),
+      regional: this.fval('regional'), subregional: this.fval('subregional'),
+      hub: this.fval('hub'), cargo: this.fval('cargo'),
+      escala: this.fval('escala'), supervisor: this.fval('supervisor'),
+    };
+    this.filtered = this.allData.filter(r => {
+      if (f.search && !r.nome.toLowerCase().includes(f.search) && !r.email.toLowerCase().includes(f.search)) return false;
+      if (f.regional    && r.regional    !== f.regional)    return false;
+      if (f.subregional && r.subregional !== f.subregional) return false;
+      if (f.hub         && r.hub         !== f.hub)         return false;
+      if (f.cargo       && r.cargo       !== f.cargo)       return false;
+      if (f.escala      && r.escala      !== f.escala)      return false;
+      if (f.supervisor  && r.supervisor  !== f.supervisor)  return false;
+      return true;
+    });
+    if (this.sortCol) {
+      this.filtered.sort((a,b) => {
+        const av=(a[this.sortCol]||'').toLowerCase(), bv=(b[this.sortCol]||'').toLowerCase();
+        return this.sortDir==='asc' ? av.localeCompare(bv,'pt') : bv.localeCompare(av,'pt');
+      });
+    }
+    this.currentPage = 1;
+    this.render();
+  }
+
+  clearFilters() {
+    this.id('f-search').value = '';
+    ['f-regional','f-subregional','f-hub','f-cargo','f-escala','f-supervisor']
+      .forEach(fid => { this.id(fid).value=''; });
+    this.sortCol=''; this.sortDir='asc';
+    document.querySelectorAll(`th[data-tab="${this.p==='a'?'analistas':'supervisores'}"]`).forEach(th => {
+      th.classList.remove('sort-asc','sort-desc');
+      th.querySelector('.sort-icon').textContent='↕';
+    });
+    this.buildCascade();
+    this.applyFilters();
+  }
+
+  /* ── Render table ── */
+  render() {
+    const total = this.filtered.length;
+    const totalPages = Math.max(1, Math.ceil(total/PAGE_SIZE));
+    if (this.currentPage > totalPages) this.currentPage = totalPages;
+    const start = (this.currentPage-1)*PAGE_SIZE;
+    const page  = this.filtered.slice(start, start+PAGE_SIZE);
+
+    this.id('result-showing').textContent = total===0 ? '0' : `${start+1}–${Math.min(start+PAGE_SIZE,total)}`;
+    this.id('result-total').textContent   = this.allData.length;
+    this.id('badge-count').textContent    = total;
+
+    const tbody = this.id('tbody');
+    if (total===0) {
+      tbody.innerHTML=`<tr><td colspan="8"><div class="empty-state">
+        <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <p>Nenhum resultado encontrado para os filtros aplicados.</p>
+      </div></td></tr>`;
+      this.renderPagination(0,1); return;
+    }
+    tbody.innerHTML = page.map(r=>`<tr>
       <td class="td-name">${esc(r.nome)}</td>
       <td class="td-email"><a href="mailto:${esc(r.email)}" style="color:inherit;text-decoration:none;">${esc(r.email)}</a></td>
       <td title="${esc(r.hub)}">${esc(r.hub)}</td>
@@ -685,167 +534,158 @@ function render() {
       <td>${esc(r.jornada)}</td>
       <td>${esc(r.supervisor)}</td>
     </tr>`).join('');
-
-  renderPagination(total, totalPages);
-}
-
-function esc(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function renderPagination(total, totalPages) {
-  const pi = document.getElementById('page-info');
-  const pb = document.getElementById('page-btns');
-  if (total === 0) { pi.textContent = ''; pb.innerHTML = ''; return; }
-  pi.textContent = `Página ${currentPage} de ${totalPages}`;
-  let html = `<button class="page-btn" id="pg-prev" ${currentPage===1?'disabled':''}>‹</button>`;
-  const delta = 2, range = [];
-  for (let i = Math.max(1, currentPage-delta); i <= Math.min(totalPages, currentPage+delta); i++) range.push(i);
-  if (range[0] > 1) { html += `<button class="page-btn" data-p="1">1</button>`; if (range[0] > 2) html += `<button class="page-btn" disabled>…</button>`; }
-  range.forEach(p => { html += `<button class="page-btn${p===currentPage?' active':''}" data-p="${p}">${p}</button>`; });
-  if (range[range.length-1] < totalPages) {
-    if (range[range.length-1] < totalPages-1) html += `<button class="page-btn" disabled>…</button>`;
-    html += `<button class="page-btn" data-p="${totalPages}">${totalPages}</button>`;
+    this.renderPagination(total, totalPages);
   }
-  html += `<button class="page-btn" id="pg-next" ${currentPage===totalPages?'disabled':''}>›</button>`;
-  pb.innerHTML = html;
-  pb.querySelectorAll('[data-p]').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.p); render(); }));
-  const prev = pb.querySelector('#pg-prev');
-  const next = pb.querySelector('#pg-next');
-  if (prev) prev.addEventListener('click', () => { currentPage--; render(); });
-  if (next) next.addEventListener('click', () => { currentPage++; render(); });
+
+  renderPagination(total, totalPages) {
+    const pi = this.id('page-info'), pb = this.id('page-btns');
+    if (total===0) { pi.textContent=''; pb.innerHTML=''; return; }
+    pi.textContent = `Página ${this.currentPage} de ${totalPages}`;
+    let html = `<button class="page-btn" id="${this.p}-pg-prev" ${this.currentPage===1?'disabled':''}>‹</button>`;
+    const delta=2, range=[];
+    for (let i=Math.max(1,this.currentPage-delta); i<=Math.min(totalPages,this.currentPage+delta); i++) range.push(i);
+    if (range[0]>1) { html+=`<button class="page-btn" data-p="1">1</button>`; if (range[0]>2) html+=`<button class="page-btn" disabled>…</button>`; }
+    range.forEach(p=>{ html+=`<button class="page-btn${p===this.currentPage?' active':''}" data-p="${p}">${p}</button>`; });
+    if (range[range.length-1]<totalPages) {
+      if (range[range.length-1]<totalPages-1) html+=`<button class="page-btn" disabled>…</button>`;
+      html+=`<button class="page-btn" data-p="${totalPages}">${totalPages}</button>`;
+    }
+    html+=`<button class="page-btn" id="${this.p}-pg-next" ${this.currentPage===totalPages?'disabled':''}>›</button>`;
+    pb.innerHTML=html;
+    pb.querySelectorAll('[data-p]').forEach(btn=>btn.addEventListener('click',()=>{ this.currentPage=parseInt(btn.dataset.p); this.render(); }));
+    const prev=pb.querySelector(`#${this.p}-pg-prev`), next=pb.querySelector(`#${this.p}-pg-next`);
+    if (prev) prev.addEventListener('click',()=>{ this.currentPage--; this.render(); });
+    if (next) next.addEventListener('click',()=>{ this.currentPage++; this.render(); });
+  }
+
+  /* ── Load data ── */
+  loadData(rows) {
+    this.allData = rows;
+    this.buildCascade();
+    this.id('stat-total').textContent = rows.length;
+    this.applyFilters();
+    document.getElementById('nav-updated').textContent =
+      'Atualizado em ' + new Date().toLocaleDateString('pt-BR');
+  }
+
+  /* ── Init empty state ── */
+  initEmpty() {
+    this.id('tbody').innerHTML=`<tr class="loading-row"><td colspan="8">Nenhum dado carregado. Acesse a área administrativa e faça o upload do CSV.</td></tr>`;
+    this.id('result-showing').textContent='0';
+    this.id('result-total').textContent='0';
+    this.id('badge-count').textContent='0';
+    this.id('page-info').textContent='';
+    this.id('page-btns').innerHTML='';
+    this.id('stat-total').textContent='—';
+  }
+
+  /* ── Bind filter events ── */
+  bindEvents() {
+    let timer;
+    this.id('f-search').addEventListener('input', ()=>{ clearTimeout(timer); timer=setTimeout(()=>this.applyFilters(),220); });
+    this.id('f-regional').addEventListener('change',()=>{ this.id('f-subregional').value=''; this.id('f-hub').value=''; this.buildCascade(); this.applyFilters(); });
+    this.id('f-subregional').addEventListener('change',()=>{ this.id('f-hub').value=''; this.buildCascade(); this.applyFilters(); });
+    ['f-hub','f-cargo','f-escala','f-supervisor'].forEach(fid=>this.id(fid).addEventListener('change',()=>this.applyFilters()));
+    this.id('btn-clear').addEventListener('click',()=>this.clearFilters());
+
+    // CSV upload
+    const csvInput  = this.id('csv-input');
+    const drop      = this.id('upload-drop');
+    const panel     = this.id('upload-panel');
+    const success   = this.id('upload-success');
+    const countSpan = this.id('upload-count');
+    csvInput.addEventListener('change',()=>{ if(csvInput.files[0]) this.handleFile(csvInput.files[0], panel, success, countSpan, csvInput); });
+    drop.addEventListener('dragover',e=>{ e.preventDefault(); drop.classList.add('dragging'); });
+    drop.addEventListener('dragleave',()=>drop.classList.remove('dragging'));
+    drop.addEventListener('drop',e=>{ e.preventDefault(); drop.classList.remove('dragging'); if(e.dataTransfer.files[0]) this.handleFile(e.dataTransfer.files[0],panel,success,countSpan,csvInput); });
+
+    // Sort
+    const tabName = this.p==='a' ? 'analistas' : 'supervisores';
+    document.querySelectorAll(`th[data-tab="${tabName}"]`).forEach(th=>{
+      th.addEventListener('click',()=>{
+        const col=th.dataset.col;
+        this.sortDir=(this.sortCol===col && this.sortDir==='asc')?'desc':'asc';
+        this.sortCol=col;
+        document.querySelectorAll(`th[data-tab="${tabName}"]`).forEach(t=>{ t.classList.remove('sort-asc','sort-desc'); t.querySelector('.sort-icon').textContent='↕'; });
+        th.classList.add(this.sortDir==='asc'?'sort-asc':'sort-desc');
+        th.querySelector('.sort-icon').textContent=this.sortDir==='asc'?'↑':'↓';
+        this.applyFilters();
+      });
+    });
+  }
+
+  handleFile(file, panel, success, countSpan, csvInput) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const rows = parseCSV(e.target.result);
+      if (!rows.length) { alert('Arquivo inválido ou vazio. Verifique o formato do CSV.'); return; }
+      this.loadData(rows);
+      panel.classList.remove('open');
+      countSpan.textContent=`— ${rows.length} colaboradores carregados.`;
+      success.classList.add('show');
+      setTimeout(()=>success.classList.remove('show'),5000);
+      csvInput.value='';
+    };
+    reader.readAsText(file,'UTF-8');
+  }
 }
 
-/* ── SORT ── */
-document.querySelectorAll('th.sortable').forEach(th => {
-  th.addEventListener('click', () => {
-    const col = th.dataset.col;
-    sortDir = (sortCol === col && sortDir === 'asc') ? 'desc' : 'asc';
-    sortCol = col;
-    document.querySelectorAll('th.sortable').forEach(t => {
-      t.classList.remove('sort-asc','sort-desc');
-      t.querySelector('.sort-icon').textContent = '↕';
-    });
-    th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
-    th.querySelector('.sort-icon').textContent = sortDir === 'asc' ? '↑' : '↓';
-    applyFilters();
+/* ══════════════════════════════════════
+   INSTANCIAR ABAS
+══════════════════════════════════════ */
+const tabA = new Tab('a');
+const tabS = new Tab('s');
+tabA.initEmpty();
+tabS.initEmpty();
+tabA.bindEvents();
+tabS.bindEvents();
+
+/* ══════════════════════════════════════
+   NAVEGAÇÃO ENTRE ABAS
+══════════════════════════════════════ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
   });
 });
 
-/* ── FILTER EVENTS ── */
-let searchTimer;
-document.getElementById('f-search').addEventListener('input', () => {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(applyFilters, 220);
-});
-
-// Regional → rebuilds subregional + hub, then filters
-document.getElementById('f-regional').addEventListener('change', () => {
-  // reset downstream
-  document.getElementById('f-subregional').value = '';
-  document.getElementById('f-hub').value = '';
-  buildCascadeFilters();
-  applyFilters();
-});
-
-// Sub Regional → rebuilds hub, then filters
-document.getElementById('f-subregional').addEventListener('change', () => {
-  document.getElementById('f-hub').value = '';
-  buildCascadeFilters();
-  applyFilters();
-});
-
-// Hub and the rest → just filter
-['f-hub','f-cargo','f-escala','f-supervisor'].forEach(id =>
-  document.getElementById(id).addEventListener('change', applyFilters)
-);
-
-document.getElementById('btn-clear').addEventListener('click', clearFilters);
-
-/* ── CSV UPLOAD ── */
-const csvInput   = document.getElementById('csv-input');
-const uploadDrop = document.getElementById('upload-drop');
-
-csvInput.addEventListener('change', () => { if (csvInput.files[0]) handleFile(csvInput.files[0]); });
-uploadDrop.addEventListener('dragover', e => { e.preventDefault(); uploadDrop.classList.add('dragging'); });
-uploadDrop.addEventListener('dragleave', () => uploadDrop.classList.remove('dragging'));
-uploadDrop.addEventListener('drop', e => {
-  e.preventDefault(); uploadDrop.classList.remove('dragging');
-  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
-});
-
-function handleFile(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const rows = parseCSV(e.target.result);
-    if (rows.length === 0) { alert('Arquivo inválido ou vazio. Verifique o formato do CSV.'); return; }
-    loadData(rows);
-    document.getElementById('upload-panel').classList.remove('open');
-    const suc = document.getElementById('upload-success');
-    document.getElementById('upload-count').textContent = `— ${rows.length} colaboradores carregados.`;
-    suc.classList.add('show');
-    setTimeout(() => suc.classList.remove('show'), 5000);
-    csvInput.value = '';
-  };
-  reader.readAsText(file, 'UTF-8');
-}
-
-/* ── ADMIN AUTH ── */
-let logoClicks = 0, clickTimer;
+/* ══════════════════════════════════════
+   ADMIN AUTH
+   — Ao autenticar, abre o painel da aba ativa
+══════════════════════════════════════ */
+let logoClicks=0, clickTimer;
 const logoBtnEl  = document.getElementById('logo-btn');
 const adminModal = document.getElementById('admin-modal');
-const adminPanel = document.getElementById('upload-panel');
 const passInput  = document.getElementById('admin-pass');
 const modalError = document.getElementById('modal-error');
 
-logoBtnEl.addEventListener('click', () => {
-  logoClicks++;
-  clearTimeout(clickTimer);
-  clickTimer = setTimeout(() => logoClicks = 0, 1200);
-  if (logoClicks >= 3) { logoClicks = 0; openModal(); }
-});
-document.addEventListener('keydown', e => {
-  if (e.ctrlKey && e.shiftKey && e.key === 'U') { e.preventDefault(); openModal(); }
-});
-if (new URLSearchParams(location.search).get('admin') === 'true') openModal();
-document.getElementById('footer-trigger').addEventListener('dblclick', openModal);
-
-function openModal() { adminModal.classList.add('open'); setTimeout(() => passInput.focus(), 80); }
-function closeModal() {
-  adminModal.classList.remove('open');
-  passInput.value = ''; passInput.classList.remove('error');
-  modalError.style.display = 'none';
-}
-document.getElementById('modal-cancel').addEventListener('click', closeModal);
-adminModal.addEventListener('click', e => { if (e.target === adminModal) closeModal(); });
-document.getElementById('modal-confirm').addEventListener('click', tryAuth);
-passInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAuth(); });
-
-function tryAuth() {
-  if (passInput.value === ADMIN_PASSWORD) {
-    closeModal(); adminPanel.classList.add('open');
-  } else {
-    passInput.classList.add('error');
-    modalError.style.display = 'block';
-    passInput.select();
-  }
+function getActivePanel() {
+  const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+  return document.getElementById(activeTab==='analistas' ? 'a-upload-panel' : 's-upload-panel');
 }
 
-/* ── INIT ── */
-(function init() {
-  document.getElementById('tbody').innerHTML = `
-    <tr class="loading-row"><td colspan="8">
-      Nenhum dado carregado. Acesse a área administrativa e faça o upload do CSV da matriz.
-    </td></tr>`;
-  document.getElementById('result-showing').textContent = '0';
-  document.getElementById('result-total').textContent   = '0';
-  document.getElementById('badge-count').textContent    = '0';
-  document.getElementById('page-info').textContent      = '';
-  document.getElementById('page-btns').innerHTML        = '';
-  // Sub Regional e Hub começam desabilitados
-  document.getElementById('f-subregional').disabled = true;
-  document.getElementById('f-hub').disabled = true;
-})();
+logoBtnEl.addEventListener('click',()=>{
+  logoClicks++; clearTimeout(clickTimer);
+  clickTimer=setTimeout(()=>logoClicks=0,1200);
+  if(logoClicks>=3){ logoClicks=0; openModal(); }
+});
+document.addEventListener('keydown',e=>{ if(e.ctrlKey&&e.shiftKey&&e.key==='U'){ e.preventDefault(); openModal(); } });
+if(new URLSearchParams(location.search).get('admin')==='true') openModal();
+document.getElementById('footer-trigger').addEventListener('dblclick',openModal);
+
+function openModal(){ adminModal.classList.add('open'); setTimeout(()=>passInput.focus(),80); }
+function closeModal(){ adminModal.classList.remove('open'); passInput.value=''; passInput.classList.remove('error'); modalError.style.display='none'; }
+document.getElementById('modal-cancel').addEventListener('click',closeModal);
+adminModal.addEventListener('click',e=>{ if(e.target===adminModal) closeModal(); });
+document.getElementById('modal-confirm').addEventListener('click',tryAuth);
+passInput.addEventListener('keydown',e=>{ if(e.key==='Enter') tryAuth(); });
+function tryAuth(){
+  if(passInput.value===ADMIN_PASSWORD){ closeModal(); getActivePanel().classList.add('open'); }
+  else{ passInput.classList.add('error'); modalError.style.display='block'; passInput.select(); }
+}
 </script>
 </body>
 </html>
