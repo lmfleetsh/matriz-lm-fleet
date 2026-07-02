@@ -1,12 +1,12 @@
 Nome,Email,Hub name,Hub Code,Regional,Sub Regional
-ALINE ZENHA,aline.pereira@shopee.com,LM Hub_MG_Contagem_01,HUB-LMG-05,MGE,MG01
+Aline Zenha,aline.pereira@shopee.com,LM Hub_MG_Contagem_01,HUB-LMG-05,MGE,MG01
 Aloisio Filho,aloisio.filho@shopee.com,LM Hub_SP_Embu das Artes_02,HUB-LSP-96,SPC,SPC02
 Aloisio Filho,aloisio.filho@shopee.com,LM Hub_SP_Itapevi,HUB-LSP-41,SPC,SPC02
 Aloisio Filho,aloisio.filho@shopee.com,LM Hub_SP_Embu das Artes,HUB-LSP-36,SPC,SPC02
 Aloisio Filho,aloisio.filho@shopee.com,Célula Backoffice,HUB-LSP-36,SPC,SPC02
-ARLETE BRAZ,arlete.braz@shopee.com,LM Hub_MG_Contagem 02,HUB-LMG-62,MGE,MG01
-ARLETE BRAZ,arlete.braz@shopee.com,LM Hub_MG_São José da Lapa,HUB-LMG-61,MGE,MG01
-ARLETE BRAZ,arlete.braz@shopee.com,LM Hub_MG_Vespasiano,HUB-LMG-40,MGE,MG01
+Arlete Braz,arlete.braz@shopee.com,LM Hub_MG_Contagem 02,HUB-LMG-62,MGE,MG01
+Arlete Braz,arlete.braz@shopee.com,LM Hub_MG_São José da Lapa,HUB-LMG-61,MGE,MG01
+Arlete Braz,arlete.braz@shopee.com,LM Hub_MG_Vespasiano,HUB-LMG-40,MGE,MG01
 Bruna Almeida Malta,bruna.malta@shopee.com,LM Hub_SP_Guaratinguetá,HUB-LSP-33,SPM,SPM02
 Bruna Almeida Malta,bruna.malta@shopee.com,LM Hub_SP_São José dos Campos,HUB-LSP-04,SPM,SPM02
 Bruna Almeida Malta,bruna.malta@shopee.com,LM Hub_SP_Taubaté,HUB-LSP-08,SPM,SPM02
@@ -59,12 +59,12 @@ Igor Caires,igor.caires@shopee.com,LM Hub_MG_Governador Valadares,HUB-LMG-56,MGE
 Igor Caires,igor.caires@shopee.com,LM Hub_MG_Ipatinga,HUB-LMG-38,MGE,MG02
 Igor Caires,igor.caires@shopee.com,LM Hub_MG_Montes Claros,HUB-LMG-11,MGE,MG02
 Igor Caires,igor.caires@shopee.com,LM Hub_MG_Teófilo Otoni,HUB-LMG-43,MGE,MG02
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_São Gonçalo,HUB-LRJ-08,RJE,RJ 03
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Itaboraí,HUB-LRJ-19,RJE,RJ 03
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Mage,HUB-LRJ-15,RJE,RJ 03
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Maricá,HUB-LRJ-13,RJE,RJ 03
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Nova Friburgo,HUB-LRJ-02,RJE,RJ 03
-Ingrid da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_São Gonçalo_02,HUB-LRJ-23,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_São Gonçalo,HUB-LRJ-08,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Itaboraí,HUB-LRJ-19,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Mage,HUB-LRJ-15,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Maricá,HUB-LRJ-13,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_Nova Friburgo,HUB-LRJ-02,RJE,RJ 03
+Ingrid Da Silva Azevedo,ingrid.azevedo@shopee.com,LM Hub_RJ_São Gonçalo_02,HUB-LRJ-23,RJE,RJ 03
 Isabela Sousa,isabela.pinto@shopee.com,LM Hub_SP_São Paulo_Lapa,HUB-LSP-15,SPC,SPC03
 Isabela Sousa,isabela.pinto@shopee.com,LM Hub_SP_Osasco_02,HUB-LSP-60,SPC,SPC02
 Isabela Sousa,isabela.pinto@shopee.com,LM Hub_SP_Barueri_01,HUB-LSP-81,SPC,SPC02
@@ -180,9 +180,9 @@ Vanessa Inácio,vanessa.aparecida@shopee.com,LM Hub_MT_Cuiabá_02,HUB-LMT-02,CON
 Vanessa Inácio,vanessa.aparecida@shopee.com,LM Hub_MS_Campo Grande,HUB-LMS-04,CON,CO2
 Vanessa Inácio,vanessa.aparecida@shopee.com,LM Hub_MS_Dourados,HUB-LMS-02,CON,CO2
 Vanessa Inácio,vanessa.aparecida@shopee.com,LM Hub_MS_Três Lagoas,HUB-LMS-03,CON,CO2
-Vinícius Santos Primo de Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Guarujá,HUB-LSP-06,SPM,SPM01
-Vinícius Santos Primo de Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Santos_Praia Grande,HUB-LSP-09,SPM,SPM01
-Vinícius Santos Primo de Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Santos_PraiaGrande_02,HUB-LSP-63,SPM,SPM01
+Vinícius Santos Primo De Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Guarujá,HUB-LSP-06,SPM,SPM01
+Vinícius Santos Primo De Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Santos_Praia Grande,HUB-LSP-09,SPM,SPM01
+Vinícius Santos Primo De Oliveira,vinicius.primo@shopee.com,LM Hub_SP_Santos_PraiaGrande_02,HUB-LSP-63,SPM,SPM01
 Vitor Pereira,vitor.pereira@shopee.com,LM Hub_PR_Ponta Grossa,HUB-LPR 22,SLA,PR02
 Vitor Pereira,vitor.pereira@shopee.com,LM Hub_PR_Curitiba,HUB-LPR 16,SLA,PR02
 Vitor Pereira,vitor.pereira@shopee.com,LM Hub_PR_Fazenda Rio Grande,HUB-LPR-27,SLA,PR02
